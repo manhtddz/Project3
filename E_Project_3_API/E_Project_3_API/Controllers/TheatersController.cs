@@ -24,7 +24,7 @@ namespace E_Project_3_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTheater(int id)
+        public IActionResult GetTheaterById(int id)
         {
             var theater = _theaterService.GetTheater(id);
             if (theater == null)

@@ -85,5 +85,46 @@ namespace E_Project_3_API.Services
                 throw new Exception();
             }
         }
+        public List<DateResponse> GetDateByMovie(int movieId)
+        {
+            var tickets = from m in _context.Movies
+                          join t in _context.Tickets on m.Id equals t.Movie.Id
+                          where t.Date.Day >= DateTime.Today.Date
+                          select new
+                          {
+                              TicketId = t.Id
+                          };
+
+            var ticketList = new List<Ticket>();
+            foreach (var item in tickets)
+            {
+                ticketList.Add(_context.Find<Ticket>(item.TicketId));
+            }
+            var dates = new List<DateResponse>();
+            foreach (var item in ticketList)
+            {
+                dates.Add(new DateResponse
+                {
+                    Id = item.Date.Id,
+                    Day = item.Date.Day
+                });
+            }
+            var showtimeList = dates.Distinct(new Comparer()).ToList();
+            return showtimeList;
+        }
+
+        class Comparer : IEqualityComparer<DateResponse>
+        {
+            public bool Equals(DateResponse x, DateResponse y)
+            {
+                return x.Id == y.Id &&
+                    x.Day.ToString().ToLower() == y.Day.ToString().ToLower();
+            }
+
+            public int GetHashCode(DateResponse obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
     }
 }

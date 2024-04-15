@@ -4,6 +4,7 @@ using E_Project_3_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Project_3_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240415043943_epj3-mig3")]
+    partial class epj3mig3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,28 +71,6 @@ namespace E_Project_3_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dates");
-                });
-
-            modelBuilder.Entity("E_Project_3_API.Models.Feedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("E_Project_3_API.Models.Genre", b =>
@@ -397,17 +378,6 @@ namespace E_Project_3_API.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("E_Project_3_API.Models.Feedback", b =>
-                {
-                    b.HasOne("E_Project_3_API.Models.User", "User")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("E_Project_3_API.Models.Product", b =>
                 {
                     b.HasOne("E_Project_3_API.Models.Category", "Category")
@@ -539,8 +509,6 @@ namespace E_Project_3_API.Migrations
 
             modelBuilder.Entity("E_Project_3_API.Models.User", b =>
                 {
-                    b.Navigation("Feedbacks");
-
                     b.Navigation("Tickets");
                 });
 

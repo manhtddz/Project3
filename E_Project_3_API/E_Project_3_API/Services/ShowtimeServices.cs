@@ -126,5 +126,48 @@ namespace E_Project_3_API.Services
             response.IsModified = true;
             return response;
         }
+
+        public List<ShowtimeResponse> GetShowtimeByMovie(int movieId)
+        {
+            var tickets = from m in _dataContext.Movies
+                          join t in _dataContext.Tickets on m.Id equals t.Movie.Id
+                          select new
+                          {
+                              TicketId = t.Id
+                          };
+            
+            var ticketList = new List<Ticket>();
+            foreach (var item in tickets)
+            {
+                ticketList.Add(_dataContext.Find<Ticket>(item.TicketId));
+            }
+            var showtimes = new List<ShowtimeResponse>();
+            foreach (var item in ticketList)
+            {
+                showtimes.Add(new ShowtimeResponse
+                {
+                    Id = item.Showtime.Id,
+                    EndTime = item.Showtime.EndTime,
+                    StartTime = item.Showtime.StartTime
+                });
+            }
+            var showtimeList = showtimes.Distinct(new Comparer()).ToList();
+            return showtimeList;
+        }
+
+        class Comparer : IEqualityComparer<ShowtimeResponse>
+        {
+            public bool Equals(ShowtimeResponse x, ShowtimeResponse y)
+            {
+                return x.Id == y.Id &&
+                    x.StartTime.ToString().ToLower() == y.StartTime.ToString().ToLower() &&
+                    x.EndTime.ToString().ToLower() == y.EndTime.ToString().ToLower();
+            }
+
+            public int GetHashCode(ShowtimeResponse obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
     }
 }

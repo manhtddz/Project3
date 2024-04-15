@@ -11,5 +11,6 @@ namespace E_Project_3_API.Services.Interfaces
         void CreateDate(DateRequest date);
         void UpdateDate(int id, Date date);
         void DeleteDate(int id);
+        List<DateResponse> GetDateByMovie(int movieId);
     }
 }

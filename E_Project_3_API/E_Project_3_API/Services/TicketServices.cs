@@ -4,6 +4,7 @@ using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Project_3_API.Services
 {
@@ -25,7 +26,7 @@ namespace E_Project_3_API.Services
             var seat = _dataContext.Seats.Find(request.SeatId);
             var showtime = _dataContext.Showtimes.Find(request.ShowtimeId);
             var date = _dataContext.Dates.Find(request.DateId);
-            var existedTicket = _dataContext.Tickets.FirstOrDefault(t => 
+            var existedTicket = _dataContext.Tickets.FirstOrDefault(t =>
                 t.Movie.Id == request.MovieId &&
                 t.Theater.Id == request.TheaterId &&
                 t.Seat.Id == request.SeatId &&
@@ -53,7 +54,7 @@ namespace E_Project_3_API.Services
 
                 ticketModifyResponse.isModified = true;
                 return ticketModifyResponse;
-                
+
             }
             else
             {
@@ -61,7 +62,7 @@ namespace E_Project_3_API.Services
 
                 return ticketModifyResponse;
             }
-            
+
         }
 
         public List<TicketResponse> GetAllTickets()
@@ -139,6 +140,76 @@ namespace E_Project_3_API.Services
             return response;
         }
 
+        public List<TicketResponse> GetTicketByMovieDateShowtime(int movieId, int dateId, int showtimeId)
+        {
+            var tickets = from m in _dataContext.Movies
+                          join t in _dataContext.Tickets on m.Id equals t.Movie.Id
+                          where m.Id == movieId
+                          select new
+                          {
+                              TicketId = t.Id,
+                              DateId = t.Date.Id,
+                              ShowtimeId = t.Showtime.Id
+                          };
+            var takenTickets = new List<Ticket>();
+            var responses = new List<TicketResponse>();
+            foreach (var item in tickets)
+            {
+                if (item.DateId == dateId && item.ShowtimeId == showtimeId)
+                {
+                    takenTickets.Add(_dataContext.Find<Ticket>(item.TicketId));
+                }
+            }
+            foreach (var item in takenTickets)
+            {
+                responses.Add(Convert(item));
+            }
+            return responses;
+        }
+        public List<TicketResponse> GetTicketByMovie(int movieId)
+        {
+            var tickets = from m in _dataContext.Movies
+                          join t in _dataContext.Tickets on m.Id equals t.Movie.Id
+                          where m.Id == movieId
+                          select new
+                          {
+                              TicketId = t.Id,
+                          };
+            var takenTickets = new List<Ticket>();
+            var responses = new List<TicketResponse>();
+            foreach (var item in tickets)
+            {
+                takenTickets.Add(_dataContext.Find<Ticket>(item.TicketId));
+            }
+            foreach (var item in takenTickets)
+            {
+                responses.Add(Convert(item));
+            }
+            return responses;
+        }
+        public TicketModifyResponse BookingTicket(int id, int userId)
+        {
+            var ticket = _dataContext.Tickets.Find(id);
+            var user = _dataContext.Users.Find(userId);
+            var response = new TicketModifyResponse();
+            if (ticket == null || user == null)
+            {
+                response.Error.NotFoundErrorMessage = "Some detail is not found";
+                return response;
+            }
+            if (ticket.Active == true)
+            {
+                response.Error.NotFoundErrorMessage = "This ticket is has an owner";
+                return response;
+            }
+            ticket.User = user;
+            ticket.Active = true;
+            _dataContext.Update<Ticket>(ticket);
+            _dataContext.SaveChanges();
+            response.isModified = true;
+            return response;
+        }
+
 
         private TicketResponse Convert(Ticket ticket)
         {
@@ -146,15 +217,22 @@ namespace E_Project_3_API.Services
             {
                 Id = ticket.Id,
                 Active = ticket.Active,
+                Movie = ticket.Movie.Name,
                 MovieId = ticket.Movie.Id,
+                Theater = ticket.Theater.Name,
                 TheaterId = ticket.Theater.Id,
+                Seat = ticket.Seat.Name,
                 SeatId = ticket.Seat.Id,
+                StartTime = ticket.Showtime.StartTime.ToString(),
+                EndTime = ticket.Showtime.EndTime.ToString(),
                 ShowtimeId = ticket.Showtime.Id,
+                Date = ticket.Date.Day.ToString(),
                 DateId = ticket.Date.Id
             };
             if (ticket.User != null)
             {
                 ticketResponse.UserId = ticket.User.Id;
+                ticketResponse.User = ticket.User.Email;
             }
             return ticketResponse;
         }

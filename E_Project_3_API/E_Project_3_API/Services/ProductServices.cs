@@ -106,6 +106,10 @@ namespace E_Project_3_API.Services
                     Description = product.Description,
                     Image = product.Image,
                     Price = product.Price,
+                    ShopName = product.Shop.Name,
+                    ShopId = product.Shop.Id,
+                    CategoryName = product.Category.Name,
+                    CategoryId = product.Category.Id,
                     Active = product.Active
                 };
 
@@ -129,6 +133,10 @@ namespace E_Project_3_API.Services
                 Description = product.Description,
                 Image = product.Image,
                 Price = product.Price,
+                ShopName = product.Shop.Name,
+                ShopId = product.Shop.Id,
+                CategoryName = product.Category.Name,
+                CategoryId = product.Category.Id,
                 Active = product.Active
             };
 

@@ -9,6 +9,10 @@ namespace E_Project_3_API.DTO.Response
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ShopName { get; set; }
+        public int ShopId { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
         public string Image { get; set; }
         [Required]
         public decimal Price { get; set; }

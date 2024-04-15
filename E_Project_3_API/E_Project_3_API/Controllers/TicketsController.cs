@@ -59,5 +59,23 @@ namespace E_Project_3_API.Controllers
             var response = _ticketServices.DeleteTicket(id);
             return Ok(response);
         }
+        [HttpGet("{movieId}/{dateId}/{showtimeId}")]
+        public IActionResult GetTicketByMovieDateShowtime(int movieId, int dateId, int showtimeId)
+        {
+            var result = _ticketServices.GetTicketByMovieDateShowtime(movieId, dateId, showtimeId);
+            return Ok(result);
+        }
+        [HttpGet("{movieId}")]
+        public IActionResult GetTicketByMovie(int movieId)
+        {
+            var result = _ticketServices.GetTicketByMovie(movieId);
+            return Ok(result);
+        }
+        [HttpPut("{id}/{uid}")]
+        public IActionResult BookingTicket(int id, int uid)
+        {
+            var result = _ticketServices.BookingTicket(id, uid);
+            return Ok(result);
+        }
     }
 }

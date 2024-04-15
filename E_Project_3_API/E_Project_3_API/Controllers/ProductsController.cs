@@ -22,7 +22,7 @@ namespace E_Project_3_API.Controllers
             return Ok(result);
         }
         [HttpGet("{id}")]
-        public IActionResult GetProduct(int id)
+        public IActionResult GetProductById(int id)
         {
             var result = _productService.GetProduct(id);
             if(result == null)

@@ -11,5 +11,8 @@ namespace E_Project_3_API.Services.Interfaces
         TicketResponse GetTicketById(int id);
         TicketModifyResponse UpdateTicket(int id, TicketRequest request);
         TicketModifyResponse DeleteTicket(int id);
+        List<TicketResponse> GetTicketByMovieDateShowtime(int movieId, int dateId, int showtimeId);
+        List<TicketResponse> GetTicketByMovie(int movieId);
+        TicketModifyResponse BookingTicket(int id, int userId);
     }
 }

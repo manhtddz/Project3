@@ -7,7 +7,7 @@ namespace E_Project_3_API.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public bool Active { get; set; } = true;
+        public bool Active { get; set; } = false;
         public virtual Movie Movie { get; set; }
         public virtual Theater Theater { get; set; }
         public virtual Seat Seat { get; set; }

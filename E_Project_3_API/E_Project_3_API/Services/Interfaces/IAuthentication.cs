@@ -8,6 +8,10 @@ namespace E_Project_3_API.Services.Interfaces
     {
         RegisterResponse Register(UserRegisterDto request);
         LoginResponse Login(UserLoginDto request);
+        UserModifyResponse CreateUser(UserRequest request);
+        List<UserResponse> GetAllUsersAndAdmins();
+        List<UserResponse> GetAllUsers();
+        UserResponse GetUserByEmail(string email);
         string CreateToken(User user);
     }
 }

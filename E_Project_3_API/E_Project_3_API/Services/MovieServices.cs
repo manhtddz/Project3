@@ -5,6 +5,7 @@ using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
+using Azure;
 
 namespace E_Project_3_API.Services
 {
@@ -23,6 +24,12 @@ namespace E_Project_3_API.Services
             {
                 Id = movie.Id,
                 Name = movie.Name,
+                ShopName = movie.Shop.Name,
+                ShopId = movie.Shop.Id,
+                Genre = movie.Genre.Name,
+                GenreId = movie.Genre.Id,
+                Image = movie.Image,
+                Price = movie.Price,
                 Description = movie.Description,
                 Active = movie.Active
             }).ToList();
@@ -38,6 +45,12 @@ namespace E_Project_3_API.Services
             {
                 Id = movie.Id,
                 Name = movie.Name,
+                ShopName = movie.Shop.Name,
+                ShopId = movie.Shop.Id,
+                Genre = movie.Genre.Name,
+                GenreId = movie.Genre.Id,
+                Image = movie.Image,
+                Price = movie.Price,
                 Description = movie.Description,
                 Active = movie.Active
             };
@@ -51,7 +64,7 @@ namespace E_Project_3_API.Services
             var existedShop = _dataContext.Find<Shop>(movieRequest.ShopId);
             var existedMovie = _dataContext.Set<Movie>().SingleOrDefault(m => m.Name == movieRequest.Name);
 
-            if (existedGenre != null && existedShop != null && movieRequest.Name != "")
+            if (existedGenre != null && existedShop != null && movieRequest.Name != "" && movieRequest.Image != "" && movieRequest.Price != 0)
             {
                 if (existedMovie != null)
                 {
@@ -61,7 +74,9 @@ namespace E_Project_3_API.Services
                 var newMovie = new Movie()
                 {
                     Name = movieRequest.Name,
+                    Image = movieRequest.Image,
                     Description = movieRequest.Description,
+                    Price = movieRequest.Price,
                     Genre = existedGenre,
                     Shop = existedShop
                 };
@@ -75,6 +90,14 @@ namespace E_Project_3_API.Services
                 if (movieRequest.Name == "")
                 {
                     movieModifyResponse.Error.NameError = "Name is required";
+                }
+                if (movieRequest.Image == "")
+                {
+                    movieModifyResponse.Error.ImageError = "ImageUrl is required";
+                }
+                if (movieRequest.Price == 0)
+                {
+                    movieModifyResponse.Error.PriceError = "Price is required";
                 }
                 if (existedGenre == null)
                 {
@@ -96,7 +119,7 @@ namespace E_Project_3_API.Services
             var existedMovie = _dataContext.Find<Movie>(id);
             var existedShop = _dataContext.Find<Shop>(movieRequest.ShopId);
             var existedGenre = _dataContext.Find<Genre>(movieRequest.GenreId);
-            if (movieRequest.Name != "" && existedGenre != null && existedShop != null)
+            if (movieRequest.Name != "" && movieRequest.Image != "" && existedGenre != null && existedShop != null && movieRequest.Price != 0)
             {
                 if (existedMovie == null)
                 {
@@ -104,7 +127,9 @@ namespace E_Project_3_API.Services
                     return response;
                 }
                 existedMovie.Name = movieRequest.Name;
+                existedMovie.Image = movieRequest.Image;
                 existedMovie.Description = movieRequest.Description;
+                existedMovie.Price = movieRequest.Price;
                 existedMovie.Shop = existedShop;
                 existedMovie.Genre = existedGenre;
 
@@ -119,6 +144,14 @@ namespace E_Project_3_API.Services
                 if (movieRequest.Name == "")
                 {
                     response.Error.NameError = "Name is required";
+                }
+                if (movieRequest.Image == "")
+                {
+                    response.Error.ImageError = "ImageUrl is required";
+                }
+                if (movieRequest.Price == 0)
+                {
+                    response.Error.PriceError = "Price is required";
                 }
                 if (existedShop == null)
                 {

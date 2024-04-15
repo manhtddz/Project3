@@ -84,5 +84,11 @@ namespace E_Project_3_API.Controllers
                 return Ok("Not found");
             }
         }
+        [HttpGet("{movieId}")]
+        public IActionResult GetDateByMovie(int movieId)
+        {
+            var result =_dateService.GetDateByMovie(movieId);
+            return Ok(result);
+        }
     }
 }

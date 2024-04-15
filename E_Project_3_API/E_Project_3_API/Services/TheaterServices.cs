@@ -121,7 +121,7 @@ namespace E_Project_3_API.Services
             var response = new TheaterModifyResponse();
 
 
-            var theaterToDelete = _dataContext.Seats.Find(id);
+            var theaterToDelete = _dataContext.Theaters.Find(id);
             if (theaterToDelete == null)
             {
                 response.Error.ExistedError = "Theater not found.";

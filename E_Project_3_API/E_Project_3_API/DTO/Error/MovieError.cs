@@ -6,5 +6,9 @@
         public string GenreError { get; set; } = "";
         public string ExistedError { get; set; } = "";
         public string NameError { get; set; } = "";
+        public string ImageError { get; set; } = "";
+        public string PriceError { get; set; } = "";
+
+
     }
 }

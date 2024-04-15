@@ -62,5 +62,12 @@ namespace E_Project_3_API.Controllers
             var response = _showtimeService.DeleteShowtime(id);
             return Ok(response);
         }
+
+        [HttpGet("{movieId}")]
+        public IActionResult GetShowtimesByMovie(int movieId)
+        {
+            var response = _showtimeService.GetShowtimeByMovie(movieId);
+            return Ok(response);
+        }
     }
 }

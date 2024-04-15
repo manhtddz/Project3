@@ -29,13 +29,14 @@ namespace E_Project_3_API.Services
                 if (existedUser != null)
                 {
                     registerResponse.Errors.ExistedError = "User is existed";
-                    if (!RegexManagement.IsEmail(request.Email))
-                    {
-                        registerResponse.Errors.EmailError = "Email is not be accepted";
-                    }
                     return registerResponse;
                 }
-               
+                if (!RegexManagement.IsEmail(request.Email))
+                {
+                    registerResponse.Errors.EmailError = "Email is not be accepted";
+                    return registerResponse;
+                }
+
                 var newUser = new User()
                 {
                     Username = request.UserName,
@@ -50,7 +51,7 @@ namespace E_Project_3_API.Services
             }
             else
             {
-                if(request.UserName == "")
+                if (request.UserName == "")
                 {
                     registerResponse.Errors.UsernameError = "Username is required";
                 }
@@ -62,7 +63,7 @@ namespace E_Project_3_API.Services
                 {
                     registerResponse.Errors.EmailError = "Email is required";
                 }
-               
+
                 return registerResponse;
             }
         }
@@ -78,7 +79,7 @@ namespace E_Project_3_API.Services
                     loginResponse.Errors.NotExistedError = "User is not existed";
                     return loginResponse;
                 }
-                if(!BCrypt.Net.BCrypt.Verify(request.Password,foundUser.PasswordHash))
+                if (!BCrypt.Net.BCrypt.Verify(request.Password, foundUser.PasswordHash))
                 {
                     loginResponse.Errors.PasswordError = "Wrong password";
                     return loginResponse;
@@ -135,6 +136,93 @@ namespace E_Project_3_API.Services
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        public UserModifyResponse CreateUser(UserRequest request)
+        {
+            var response = new UserModifyResponse();
+            var existedUser = _dataContext.Set<User>().ToList().SingleOrDefault(u => u.Email == request.Email && u.Role == false);
+            if (request.Email != "")
+            {
+                if (existedUser != null)
+                {
+                    response.Errors.ExistedError = "User is created";
+                    return response;
+                }
+                if (!RegexManagement.IsEmail(request.Email))
+                {
+                    response.Errors.EmailError = "Email is not be accepted";
+                    return response;
+                }
+                var newUser = new User()
+                {
+                    Email = request.Email
+                };
+                _dataContext.Add(newUser);
+                _dataContext.SaveChanges();
+                response.isModified = true;
+                return response;
+            }
+            else
+            {
+                if (request.Email == "")
+                {
+                    response.Errors.EmailError = "Email is required";
+                }
+
+                return response;
+            }
+        }
+
+        public List<UserResponse> GetAllUsersAndAdmins()
+        {
+            var users = _dataContext.Set<User>().ToList();
+            var responses = new List<UserResponse>();
+            foreach (var user in users)
+            {
+                responses.Add(new UserResponse
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Active = user.Active,
+                    Role = user.Role
+                });
+            }
+            return responses;
+        }
+        public UserResponse GetUserByEmail(string email)
+        {
+            var user = _dataContext.Users.SingleOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                return null;
+            }
+            return new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Role = user.Role,
+                Active = user.Active
+            };
+        }
+        public List<UserResponse> GetAllUsers()
+        {
+            var users = _dataContext.Set<User>().ToList();
+            var responses = new List<UserResponse>();
+            foreach (var user in users)
+            {
+                if (!user.Role)
+                {
+                    responses.Add(new UserResponse
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        Active = user.Active,
+                        Role = user.Role
+                    });
+                }
+            }
+            return responses;
         }
     }
 }

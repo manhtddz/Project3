@@ -26,5 +26,29 @@ namespace E_Project_3_API.Controllers
             var result = _authentication.Login(request);
             return Ok(result);
         }
+        [HttpPost()]
+        public IActionResult CreateUser(UserRequest request)
+        {
+            var result = _authentication.CreateUser(request);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetAllUsersAndAdmins()
+        {
+            var result = _authentication.GetAllUsersAndAdmins();
+            return Ok(result);
+        }
+        [HttpGet("{email}")]
+        public IActionResult GetUserByEmail(string email)
+        {
+            var result = _authentication.GetUserByEmail(email);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetAllUsers()
+        {
+            var result = _authentication.GetAllUsers();
+            return Ok(result);
+        }
     }
 }
