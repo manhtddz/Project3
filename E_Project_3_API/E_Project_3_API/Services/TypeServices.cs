@@ -129,5 +129,21 @@ namespace E_Project_3_API.Services
                 return typeModifyResponse;
             }
         }
+
+        public List<TypeResponse> GetPagingTypes(int startIndex, int limit)
+        {
+            var types = _dataContext.Set<Models.Type>().ToList();
+
+            var responses = new List<TypeResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= types.Count)
+                {
+                    break;
+                }
+                responses.Add(Convert(types[i]));
+            }
+            return responses;
+        }
     }
 }

@@ -8,6 +8,7 @@ using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
 using E_Project_3_API.Services.Utility;
+using System.Collections.Generic;
 
 namespace E_Project_3_API.Services
 {
@@ -224,5 +225,20 @@ namespace E_Project_3_API.Services
             }
             return responses;
         }
+        public List<UserResponse> GetAllPagingUsers(int startIndex, int limit)
+        {
+            var users = GetAllUsers();
+            var responses = new List<UserResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= users.Count)
+                {
+                    break;
+                }
+                responses.Add(users[i]);
+            }
+            return responses;
+        }
+
     }
 }

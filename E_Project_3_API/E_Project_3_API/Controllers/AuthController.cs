@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.DTO.Response;
 
 namespace E_Project_3_API.Controllers
 {
@@ -17,7 +18,7 @@ namespace E_Project_3_API.Controllers
         [HttpPost()]
         public IActionResult Register(UserRegisterDto request)
         {
-            var result =  _authentication.Register(request);
+            var result = _authentication.Register(request);
             return Ok(result);
         }
         [HttpPost()]
@@ -48,6 +49,18 @@ namespace E_Project_3_API.Controllers
         public IActionResult GetAllUsers()
         {
             var result = _authentication.GetAllUsers();
+            return Ok(result);
+        }
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetAllPagingUsers(int startIndex, int limit)
+        {
+            var result = _authentication.GetAllPagingUsers(startIndex, limit);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetLengthOfUsers()
+        {
+            var result = _authentication.GetAllUsers().Count();
             return Ok(result);
         }
     }

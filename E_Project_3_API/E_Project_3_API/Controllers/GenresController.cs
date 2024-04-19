@@ -4,6 +4,7 @@ using E_Project_3_API.DTO.Request;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
 using Azure.Core;
+using E_Project_3_API.Services;
 
 namespace E_Project_3_API.Controllers
 {
@@ -58,6 +59,20 @@ namespace E_Project_3_API.Controllers
         public IActionResult DeleteGenre(int id)
         {
             var result = _genreService.DeleteGenre(id);
+            return Ok(result);
+        }
+
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetPagingGenres(int startIndex, int limit)
+        {
+            var result = _genreService.GetPagingGenres(startIndex, limit);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetLengthOfGenres()
+        {
+            var result = _genreService.GetAllGenres().Count();
             return Ok(result);
         }
     }

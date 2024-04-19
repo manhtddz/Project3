@@ -10,5 +10,6 @@ namespace E_Project_3_API.Services.Interfaces
         CategoryModifyResponse CreateCategory(CategoryRequest request);
         CategoryModifyResponse DeleteCategory(int id);
         CategoryModifyResponse UpdateCategory(int id, CategoryRequest request);
+        List<CategoryResponse> GetPagingCategories(int startIndex, int limit);
     }
 }

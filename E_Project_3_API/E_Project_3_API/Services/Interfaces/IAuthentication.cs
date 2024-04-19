@@ -11,6 +11,7 @@ namespace E_Project_3_API.Services.Interfaces
         UserModifyResponse CreateUser(UserRequest request);
         List<UserResponse> GetAllUsersAndAdmins();
         List<UserResponse> GetAllUsers();
+        List<UserResponse> GetAllPagingUsers(int startIndex, int limit);
         UserResponse GetUserByEmail(string email);
         string CreateToken(User user);
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Azure;
 using E_Project_3_API.DTO.Error;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
@@ -77,7 +78,7 @@ namespace E_Project_3_API.Services
         {
             var response = new ProductModifyResponse();
 
-            
+
             var productToDelete = _dataContext.Products.Find(id);
             if (productToDelete == null)
             {
@@ -195,6 +196,181 @@ namespace E_Project_3_API.Services
                 return response;
             }
         }
-        
+        public List<ProductResponse> GetPagingProducts(int startIndex, int limit)
+        {
+            var products = _dataContext.Set<Product>().ToList();
+
+            var responses = new List<ProductResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= products.Count)
+                {
+                    break;
+                }
+                responses.Add(new ProductResponse
+                {
+                    Id = products[i].Id,
+                    Name = products[i].Name,
+                    Description = products[i].Description,
+                    Image = products[i].Image,
+                    Price = products[i].Price,
+                    ShopName = products[i].Shop.Name,
+                    ShopId = products[i].Shop.Id,
+                    CategoryName = products[i].Category.Name,
+                    CategoryId = products[i].Category.Id,
+                    Active = products[i].Active
+                });
+            }
+            return responses;
+        }
+        public List<ProductResponse> GetAllProductsByType(int typeId)
+        {
+            var products = from t in _dataContext.Types
+                           join c in _dataContext.Categories on t.Id equals c.Type.Id
+                           join p in _dataContext.Products on c.Id equals p.Category.Id
+                           where t.Id == typeId
+                           select new
+                           {
+                               ProductId = p.Id,
+                           };
+            var takenProducts = new List<Product>();
+            var responses = new List<ProductResponse>();
+
+            foreach (var item in products)
+            {
+                takenProducts.Add(_dataContext.Find<Product>(item.ProductId));
+            }
+            foreach (var item in takenProducts)
+            {
+                responses.Add(new ProductResponse
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Image = item.Image,
+                    Price = item.Price,
+                    ShopName = item.Shop.Name,
+                    ShopId = item.Shop.Id,
+                    CategoryName = item.Category.Name,
+                    CategoryId = item.Category.Id,
+                    Active = item.Active
+                });
+            }
+            return responses;
+        }
+        public List<ProductResponse> GetPagingProductsByType(int typeId, int startIndex, int limit)
+        {
+            var products = from t in _dataContext.Types
+                           join c in _dataContext.Categories on t.Id equals c.Type.Id
+                           join p in _dataContext.Products on c.Id equals p.Category.Id
+                           where t.Id == typeId
+                           select new
+                           {
+                               ProductId = p.Id,
+                           };
+            var takenProducts = new List<Product>();
+            var responses = new List<ProductResponse>();
+
+            foreach (var item in products)
+            {
+                takenProducts.Add(_dataContext.Find<Product>(item.ProductId));
+            }
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= takenProducts.Count)
+                {
+                    break;
+                }
+                responses.Add(new ProductResponse
+                {
+                    Id = takenProducts[i].Id,
+                    Name = takenProducts[i].Name,
+                    Description = takenProducts[i].Description,
+                    Image = takenProducts[i].Image,
+                    Price = takenProducts[i].Price,
+                    ShopName = takenProducts[i].Shop.Name,
+                    ShopId = takenProducts[i].Shop.Id,
+                    CategoryName = takenProducts[i].Category.Name,
+                    CategoryId = takenProducts[i].Category.Id,
+                    Active = takenProducts[i].Active
+                });
+            }
+            return responses;
+        }
+        public List<ProductResponse> GetAllSearchProductsByType(int typeId, string searchText)
+        {
+            var products = from t in _dataContext.Types
+                           join c in _dataContext.Categories on t.Id equals c.Type.Id
+                           join p in _dataContext.Products on c.Id equals p.Category.Id
+                           where t.Id == typeId && (p.Name.Contains(searchText) || p.Shop.Name.Contains(searchText))
+                           select new
+                           {
+                               ProductId = p.Id,
+                           };
+            var takenProducts = new List<Product>();
+            var responses = new List<ProductResponse>();
+
+            foreach (var item in products)
+            {
+                takenProducts.Add(_dataContext.Find<Product>(item.ProductId));
+            }
+            foreach (var item in takenProducts)
+            {
+                responses.Add(new ProductResponse
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Image = item.Image,
+                    Price = item.Price,
+                    ShopName = item.Shop.Name,
+                    ShopId = item.Shop.Id,
+                    CategoryName = item.Category.Name,
+                    CategoryId = item.Category.Id,
+                    Active = item.Active
+                });
+            }
+            return responses;
+        }
+
+        public List<ProductResponse> GetPagingSearchProductsByType(int typeId, int startIndex, int limit, string searchText)
+        {
+            var products = from t in _dataContext.Types
+                           join c in _dataContext.Categories on t.Id equals c.Type.Id
+                           join p in _dataContext.Products on c.Id equals p.Category.Id
+                           where t.Id == typeId && (p.Name.Contains(searchText) || p.Shop.Name.Contains(searchText))
+                           select new
+                           {
+                               ProductId = p.Id,
+                           };
+            var takenProducts = new List<Product>();
+            var responses = new List<ProductResponse>();
+
+            foreach (var item in products)
+            {
+                takenProducts.Add(_dataContext.Find<Product>(item.ProductId));
+            }
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= takenProducts.Count)
+                {
+                    break;
+                }
+                responses.Add(new ProductResponse
+                {
+                    Id = takenProducts[i].Id,
+                    Name = takenProducts[i].Name,
+                    Description = takenProducts[i].Description,
+                    Image = takenProducts[i].Image,
+                    Price = takenProducts[i].Price,
+                    ShopName = takenProducts[i].Shop.Name,
+                    ShopId = takenProducts[i].Shop.Id,
+                    CategoryName = takenProducts[i].Category.Name,
+                    CategoryId = takenProducts[i].Category.Id,
+                    Active = takenProducts[i].Active
+                });
+            }
+            return responses;
+        }
     }
 }

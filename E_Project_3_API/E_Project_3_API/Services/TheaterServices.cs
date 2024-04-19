@@ -134,5 +134,25 @@ namespace E_Project_3_API.Services
             response.isModified = true;
             return response;
         }
+        public List<TheaterResponse> GetPagingTheaters(int startIndex, int limit)
+        {
+            var theaters = _dataContext.Set<Theater>().ToList();
+
+            var responses = new List<TheaterResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= theaters.Count)
+                {
+                    break;
+                }
+                responses.Add(new TheaterResponse
+                {
+                    Id = theaters[i].Id,
+                    Name = theaters[i].Name,
+                    Active = theaters[i].Active
+                });
+            }
+            return responses;
+        }
     }
 }

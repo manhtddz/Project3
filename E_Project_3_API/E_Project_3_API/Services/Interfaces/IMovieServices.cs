@@ -11,6 +11,7 @@ namespace E_Project_3_API.Services.Interfaces
         MovieModifyResponse CreateMovie(MovieRequest movieRequest);
         MovieModifyResponse UpdateMovie(int id, MovieRequest movieRequest);
         MovieModifyResponse DeleteMovie(int id);
+        List<MovieResponse> GetPagingMovies(int startIndex, int limit);
 
     }
 }

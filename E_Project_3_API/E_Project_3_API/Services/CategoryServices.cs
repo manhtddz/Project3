@@ -21,6 +21,8 @@ namespace E_Project_3_API.Services
             {
                 Id = category.Id,
                 Name = category.Name,
+                TypeId = category.Type.Id,
+                TypeName = category.Type.Name,
                 Image = category.Image,
                 Active = category.Active
             };
@@ -36,7 +38,7 @@ namespace E_Project_3_API.Services
             {
                 if (existedCategory != null)
                 {
-                    categoryModifyResponse.Error.ExistedError = "Categories is existed";
+                    categoryModifyResponse.Error.ExistedError = "Category is existed";
                     return categoryModifyResponse;
                 }
                 
@@ -79,6 +81,7 @@ namespace E_Project_3_API.Services
                 return categoryModifyResponse;
             }
             _dataContext.Remove<Category>(existedCategory);
+            _dataContext.SaveChanges();
             categoryModifyResponse.isModified = true;
             return categoryModifyResponse;
         }
@@ -140,6 +143,21 @@ namespace E_Project_3_API.Services
                 }
                 return categoryModifyResponse;
             }
+        }
+        public List<CategoryResponse> GetPagingCategories(int startIndex, int limit)
+        {
+            var categories = _dataContext.Set<Category>().ToList();
+
+            var responses = new List<CategoryResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= categories.Count)
+                {
+                    break;
+                }
+                responses.Add(Convert(categories[i]));
+            }
+            return responses;
         }
     }
 }

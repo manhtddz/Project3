@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.Services;
 
 namespace E_Project_3_API.Controllers
 {
@@ -69,6 +70,18 @@ namespace E_Project_3_API.Controllers
         public IActionResult GetTicketByMovie(int movieId)
         {
             var result = _ticketServices.GetTicketByMovie(movieId);
+            return Ok(result);
+        }
+        [HttpGet("{movieId}/{startIndex}/{limit}")]
+        public IActionResult GetTicketPagingByMovie(int movieId, int startIndex, int limit)
+        {
+            var result = _ticketServices.GetTicketPagingByMovie(movieId, startIndex, limit);
+            return Ok(result);
+        }
+        [HttpGet("{movieId}")]
+        public IActionResult GetLengthOfTicketsByMovie(int movieId)
+        {
+            var result = _ticketServices.GetTicketByMovie(movieId).Count();
             return Ok(result);
         }
         [HttpPut("{id}/{uid}")]

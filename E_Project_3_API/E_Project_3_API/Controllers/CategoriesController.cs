@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.Services;
 
 namespace E_Project_3_API.Controllers
 {
@@ -54,6 +55,19 @@ namespace E_Project_3_API.Controllers
         public IActionResult DeleteCategory(int id)
         {
             var result = _categoryServices.DeleteCategory(id);
+            return Ok(result);
+        }
+
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetPagingCategories(int startIndex, int limit)
+        {
+            var result = _categoryServices.GetPagingCategories(startIndex, limit);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetLengthOfCategories()
+        {
+            var result = _categoryServices.GetAllCategories().Count();
             return Ok(result);
         }
     }

@@ -2,6 +2,7 @@
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.Services;
 
 namespace E_Project_3_API.Controllers
 {
@@ -56,6 +57,19 @@ namespace E_Project_3_API.Controllers
         public IActionResult DeleteTheater(int id)
         {
             var result = _theaterService.DeleteTheater(id);
+            return Ok(result);
+        }
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetPagingTheaters(int startIndex, int limit)
+        {
+            var result = _theaterService.GetPagingTheaters(startIndex, limit);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetLengthOfTheaters()
+        {
+            var result = _theaterService.GetAllTheaters().Count();
             return Ok(result);
         }
     }

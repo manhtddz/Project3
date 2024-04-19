@@ -11,5 +11,6 @@ namespace E_Project_3_API.Services.Interfaces
         GenreModifyResponse CreateGenre(GenreRequest genre);
         GenreModifyResponse UpdateGenre(int id, GenreRequest genre);
         GenreModifyResponse DeleteGenre(int id);
+        List<GenreResponse> GetPagingGenres(int startIndex, int limit);
     }
 }

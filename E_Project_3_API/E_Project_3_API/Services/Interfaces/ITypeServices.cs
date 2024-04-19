@@ -11,6 +11,6 @@ namespace E_Project_3_API.Services.Interfaces
         TypeModifyResponse CreateType(TypeRequest request);
         TypeModifyResponse DeleteType(int id);
         TypeModifyResponse UpdateType(int id, TypeRequest request);
-
+        List<TypeResponse> GetPagingTypes(int startIndex, int limit);
     }
 }

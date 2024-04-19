@@ -10,5 +10,6 @@ namespace E_Project_3_API.Services.Interfaces
         ShopModifyResponse CreateShop(ShopRequest request);
         ShopModifyResponse DeleteShop(int id);
         ShopModifyResponse UpdateShop(int id, ShopRequest request);
+        List<ShopResponse> GetPagingShops(int startIndex, int limit);
     }
 }

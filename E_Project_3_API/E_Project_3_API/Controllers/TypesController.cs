@@ -55,5 +55,18 @@ namespace E_Project_3_API.Controllers
             var result = _typeServices.DeleteType(id);
             return Ok(result);
         }
+
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetPagingTypes(int startIndex,int limit)
+        {
+            var result = _typeServices.GetPagingTypes(startIndex,limit);
+            return Ok(result);
+        }
+        [HttpGet]
+        public IActionResult GetLengthOfTypes()
+        {
+            var result = _typeServices.GetAllTypes().Count();
+            return Ok(result);
+        }
     }
 }

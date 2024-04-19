@@ -10,5 +10,10 @@ namespace E_Project_3_API.Services.Interfaces
         ProductModifyResponse CreateProduct(ProductRequest request);
         ProductModifyResponse UpdateProduct(int id, ProductRequest request);
         ProductModifyResponse DeleteProduct(int id);
+        List<ProductResponse> GetPagingProducts(int startIndex, int limit);
+        List<ProductResponse> GetAllProductsByType(int typeId);
+        List<ProductResponse> GetPagingProductsByType(int typeId, int startIndex, int limit);
+        List<ProductResponse> GetAllSearchProductsByType(int typeId, string searchText);
+        List<ProductResponse> GetPagingSearchProductsByType(int typeId, int startIndex, int limit, string searchText);
     }
 }

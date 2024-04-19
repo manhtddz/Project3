@@ -187,6 +187,32 @@ namespace E_Project_3_API.Services
             }
             return responses;
         }
+        public List<TicketResponse> GetTicketPagingByMovie(int movieId, int startIndex, int limit)
+        {
+            var tickets = from m in _dataContext.Movies
+                          join t in _dataContext.Tickets on m.Id equals t.Movie.Id
+                          where m.Id == movieId
+                          select new
+                          {
+                              TicketId = t.Id,
+                          };
+            var takenTickets = new List<Ticket>();
+            var responses = new List<TicketResponse>();
+            foreach (var item in tickets)
+            {
+                takenTickets.Add(_dataContext.Find<Ticket>(item.TicketId));
+            }
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= takenTickets.Count)
+                {
+                    break;
+                }
+                responses.Add(Convert(takenTickets[i]));
+            }
+            return responses;
+        }
+
         public TicketModifyResponse BookingTicket(int id, int userId)
         {
             var ticket = _dataContext.Tickets.Find(id);

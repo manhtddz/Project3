@@ -11,5 +11,6 @@ namespace E_Project_3_API.Services.Interfaces
         TheaterResponse GetTheater(int id);
         TheaterModifyResponse UpdateTheater(int id, TheaterRequest request);
         TheaterModifyResponse DeleteTheater(int id);
+        List<TheaterResponse> GetPagingTheaters(int startIndex, int limit);
     }
 }

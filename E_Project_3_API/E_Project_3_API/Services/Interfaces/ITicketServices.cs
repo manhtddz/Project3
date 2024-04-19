@@ -13,6 +13,7 @@ namespace E_Project_3_API.Services.Interfaces
         TicketModifyResponse DeleteTicket(int id);
         List<TicketResponse> GetTicketByMovieDateShowtime(int movieId, int dateId, int showtimeId);
         List<TicketResponse> GetTicketByMovie(int movieId);
+        List<TicketResponse> GetTicketPagingByMovie(int movieId, int startIndex, int limit);
         TicketModifyResponse BookingTicket(int id, int userId);
     }
 }

@@ -118,5 +118,20 @@ namespace E_Project_3_API.Services
             genreModifyResponse.isModified = true;
             return genreModifyResponse;
         }
+        public List<GenreResponse> GetPagingGenres(int startIndex, int limit)
+        {
+            var genres = _context.Set<Genre>().ToList();
+
+            var responses = new List<GenreResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= genres.Count)
+                {
+                    break;
+                }
+                responses.Add(Convert(genres[i]));
+            }
+            return responses;
+        }
     }
 }

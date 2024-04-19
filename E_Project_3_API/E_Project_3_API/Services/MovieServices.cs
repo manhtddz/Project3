@@ -6,6 +6,9 @@ using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
 using Azure;
+using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
+using System;
 
 namespace E_Project_3_API.Services
 {
@@ -178,6 +181,34 @@ namespace E_Project_3_API.Services
             _dataContext.SaveChanges();
             response.isModified = true;
             return response;
+        }
+
+        public List<MovieResponse> GetPagingMovies(int startIndex, int limit)
+        {
+            var movies = _dataContext.Set<Movie>().ToList();
+
+            var responses = new List<MovieResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= movies.Count)
+                {
+                    break;
+                }
+                responses.Add(new MovieResponse
+                {
+                    Id = movies[i].Id,
+                    Name = movies[i].Name,
+                    ShopName = movies[i].Shop.Name,
+                    ShopId = movies[i].Shop.Id,
+                    Genre = movies[i].Genre.Name,
+                    GenreId = movies[i].Genre.Id,
+                    Image = movies[i].Image,
+                    Price = movies[i].Price,
+                    Description = movies[i].Description,
+                    Active = movies[i].Active
+                });
+            }
+            return responses;
         }
 
     }

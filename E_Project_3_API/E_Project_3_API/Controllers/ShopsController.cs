@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.Services;
 
 namespace E_Project_3_API.Controllers
 {
@@ -56,6 +57,20 @@ namespace E_Project_3_API.Controllers
         public IActionResult DeleteShop(int id)
         {
             var result = _shopServices.DeleteShop(id);
+            return Ok(result);
+        }
+
+        [HttpGet("{startIndex}/{limit}")]
+        public IActionResult GetPagingShops(int startIndex, int limit)
+        {
+            var result = _shopServices.GetPagingShops(startIndex, limit);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetLengthOfShops()
+        {
+            var result = _shopServices.GetAllShops().Count();
             return Ok(result);
         }
     }

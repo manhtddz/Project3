@@ -34,7 +34,7 @@ namespace E_Project_3_API.Services
         public ShopModifyResponse CreateShop(ShopRequest request)
         {
             var shopModifyResponse = new ShopModifyResponse();
-            var existedShop = GetAllShops().SingleOrDefault(t => t.Name == request.Name);
+            var existedShop = GetAllShops().SingleOrDefault(t => t.Name == request.Name || t.Email == request.Email);
             if (request.Name != "" && request.Logo != "" && request.Email != "" && request.Phone != "" && request.Address != "")
             {
                 if (existedShop != null)
@@ -194,6 +194,22 @@ namespace E_Project_3_API.Services
                 }
                 return shopModifyResponse;
             }
+        }
+
+        public List<ShopResponse> GetPagingShops(int startIndex, int limit)
+        {
+            var shops = _dataContext.Set<Shop>().ToList();
+
+            var responses = new List<ShopResponse>();
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= shops.Count)
+                {
+                    break;
+                }
+                responses.Add(Convert(shops[i]));
+            }
+            return responses;
         }
     }
 }
