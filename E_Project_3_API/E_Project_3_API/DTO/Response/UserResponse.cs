@@ -2,16 +2,16 @@
 
 namespace E_Project_3_API.DTO.Response
 {
-    public class UserResponse
+    public class FeedbackResponse
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public bool Active { get; set; }
-        public bool Role {  get; set; }
+        public int UserId { get; set; }
+        public string UserEmail { get; set; }
+        public string Content { get; set; }
     }
-    public class UserModifyResponse
+    public class FeedbackModifyResponse
     {
         public bool isModified { get; set; } = false;
-        public UserError Errors { get; set; } = new UserError();
+        public FeedbackError Errors { get; set; } = new FeedbackError();
     }
 }

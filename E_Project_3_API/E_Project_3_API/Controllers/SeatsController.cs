@@ -39,7 +39,7 @@ namespace E_Project_3_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSeat(SeatsRequest request)
+        public IActionResult CreateSeat(SeatRequest request)
         {
             var response = _seatService.CreateSeat(request);
             
@@ -47,7 +47,7 @@ namespace E_Project_3_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSeat(int id, SeatsRequest request)
+        public IActionResult UpdateSeat(int id, SeatRequest request)
         {
             var response = _seatService.UpdateSeat(id, request);
            

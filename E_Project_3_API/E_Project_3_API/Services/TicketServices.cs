@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Azure.Core;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
+using E_Project_3_API.Services.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Project_3_API.Services
@@ -28,7 +30,7 @@ namespace E_Project_3_API.Services
             var date = _dataContext.Dates.Find(request.DateId);
             var existedTicket = _dataContext.Tickets.FirstOrDefault(t =>
                 t.Movie.Id == request.MovieId &&
-                t.Theater.Id == request.TheaterId &&
+                //t.Theater.Id == request.TheaterId &&
                 t.Seat.Id == request.SeatId &&
                 t.Showtime.Id == request.ShowtimeId &&
                 t.Date.Id == request.DateId
@@ -213,29 +215,85 @@ namespace E_Project_3_API.Services
             return responses;
         }
 
-        public TicketModifyResponse BookingTicket(int id, int userId)
+        public TicketModifyResponse BookingTicket(int id, UserRequest request)
         {
             var ticket = _dataContext.Tickets.Find(id);
-            var user = _dataContext.Users.Find(userId);
+            var existedUser = _dataContext.Set<User>().ToList().SingleOrDefault(u => u.Email == request.Email && u.Role == false);
             var response = new TicketModifyResponse();
-            if (ticket == null || user == null)
+
+            if (ticket != null && request.Email != "")
             {
-                response.Error.NotFoundErrorMessage = "Some detail is not found";
+                if (!RegexManagement.IsEmail(request.Email))
+                {
+                    response.Error.NotFoundErrorMessage = "Email is not be accepted";
+                    return response;
+                }
+                if (existedUser != null)
+                {
+                    if (ticket.Active == true)
+                    {
+                        response.Error.NotFoundErrorMessage = "This ticket is has an owner";
+                        return response;
+                    }
+                    ticket.User = existedUser;
+                    ticket.Active = true;
+                    _dataContext.Update<Ticket>(ticket);
+                    _dataContext.SaveChanges();
+                    response.isModified = true;
+                    return response;
+                }
+                else
+                {
+                    if (ticket.Active == true)
+                    {
+                        response.Error.NotFoundErrorMessage = "This ticket is has an owner";
+                        return response;
+                    }
+                    var newUser = new User()
+                    {
+                        Email = request.Email,
+                        Role = false,
+                        Active = true
+                    };
+                    _dataContext.Add<User>(newUser);
+                    _dataContext.SaveChanges();
+
+                    ticket.User = newUser;
+                    ticket.Active = true;
+                    _dataContext.Update<Ticket>(ticket);
+                    _dataContext.SaveChanges();
+                    response.isModified = true;
+                    return response;
+                }
+            }
+            else
+            {
+                if (ticket == null)
+                {
+                    response.Error.NotFoundErrorMessage = "You have to choose seat";
+                }
+                else if  (request.Email == "")
+                {
+                    response.Error.NotFoundErrorMessage = "Please enter your email";
+                }
                 return response;
             }
-            if (ticket.Active == true)
-            {
-                response.Error.NotFoundErrorMessage = "This ticket is has an owner";
-                return response;
-            }
-            ticket.User = user;
-            ticket.Active = true;
-            _dataContext.Update<Ticket>(ticket);
-            _dataContext.SaveChanges();
-            response.isModified = true;
-            return response;
+
         }
 
+        public decimal TotalIncome()
+        {
+            var tickets = _dataContext.Tickets.ToList();
+            decimal income = 0;
+            foreach (var item in tickets)
+            {
+                if (item.Active)
+                {
+                    income += item.Movie.Price;
+                }
+            }
+            return income;
+        }
 
         private TicketResponse Convert(Ticket ticket)
         {
@@ -249,16 +307,31 @@ namespace E_Project_3_API.Services
                 TheaterId = ticket.Theater.Id,
                 Seat = ticket.Seat.Name,
                 SeatId = ticket.Seat.Id,
-                StartTime = ticket.Showtime.StartTime.ToString(),
-                EndTime = ticket.Showtime.EndTime.ToString(),
                 ShowtimeId = ticket.Showtime.Id,
-                Date = ticket.Date.Day.ToString(),
+                Date = ticket.Date.Day.Day + "/" + ticket.Date.Day.Month + "/" + ticket.Date.Day.Year,
                 DateId = ticket.Date.Id
             };
             if (ticket.User != null)
             {
                 ticketResponse.UserId = ticket.User.Id;
                 ticketResponse.User = ticket.User.Email;
+            }
+            if (ticket.Showtime.EndTime.Minute < 10)
+            {
+                ticketResponse.EndTime = ticket.Showtime.EndTime.Hour + ":0" + ticket.Showtime.EndTime.Minute;
+            }
+            else
+            {
+                ticketResponse.EndTime = ticket.Showtime.EndTime.Hour + ":" + ticket.Showtime.EndTime.Minute;
+            }
+
+            if (ticket.Showtime.StartTime.Minute < 10)
+            {
+                ticketResponse.StartTime = ticket.Showtime.StartTime.Hour + ":0" + ticket.Showtime.StartTime.Minute;
+            }
+            else
+            {
+                ticketResponse.StartTime = ticket.Showtime.StartTime.Hour + ":" + ticket.Showtime.StartTime.Minute;
             }
             return ticketResponse;
         }

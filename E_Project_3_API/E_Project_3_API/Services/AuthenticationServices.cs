@@ -87,6 +87,7 @@ namespace E_Project_3_API.Services
                 }
 
                 loginResponse.Token = CreateToken(foundUser);
+                loginResponse.UserName = foundUser.Username;
                 loginResponse.isLogin = true;
                 return loginResponse;
 

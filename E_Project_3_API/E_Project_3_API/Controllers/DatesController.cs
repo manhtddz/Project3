@@ -39,7 +39,7 @@ namespace E_Project_3_API.Controllers
                 {
                     isGet = false,
                     message = "Not Found"
-                }); 
+                });
             }
         }
 
@@ -65,7 +65,7 @@ namespace E_Project_3_API.Controllers
         //    }
 
         //    existingDate.Day = dateDto.Day;
-           
+
         //    _dateService.UpdateDate(id, existingDate);
 
         //    return NoContent();
@@ -87,8 +87,14 @@ namespace E_Project_3_API.Controllers
         [HttpGet("{movieId}")]
         public IActionResult GetDateByMovie(int movieId)
         {
-            var result =_dateService.GetDateByMovie(movieId);
+            var result = _dateService.GetDateByMovie(movieId);
             return Ok(result);
+        }
+        [HttpPost("{dateQty}")]
+        public IActionResult CreateSomeDates(int dateQty)
+        {
+            _dateService.CreateSomeDates(dateQty);
+            return Ok( new { mesage = dateQty + " day created" });
         }
     }
 }

@@ -12,6 +12,8 @@ namespace E_Project_3_API.Services.Interfaces
         MovieModifyResponse UpdateMovie(int id, MovieRequest movieRequest);
         MovieModifyResponse DeleteMovie(int id);
         List<MovieResponse> GetPagingMovies(int startIndex, int limit);
+        List<MovieResponse> GetAllSearchMovies(string searchText);
+        List<MovieResponse> GetPagingSearchMovies(int startIndex, int limit, string searchText);
 
     }
 }

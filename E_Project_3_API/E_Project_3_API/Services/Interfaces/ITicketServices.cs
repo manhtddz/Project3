@@ -14,6 +14,7 @@ namespace E_Project_3_API.Services.Interfaces
         List<TicketResponse> GetTicketByMovieDateShowtime(int movieId, int dateId, int showtimeId);
         List<TicketResponse> GetTicketByMovie(int movieId);
         List<TicketResponse> GetTicketPagingByMovie(int movieId, int startIndex, int limit);
-        TicketModifyResponse BookingTicket(int id, int userId);
+        TicketModifyResponse BookingTicket(int id, UserRequest request);
+        decimal TotalIncome();
     }
 }

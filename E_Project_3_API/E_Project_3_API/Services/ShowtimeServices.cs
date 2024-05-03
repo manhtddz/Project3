@@ -28,7 +28,7 @@ namespace E_Project_3_API.Services
                 return response;
             }
 
-           
+
             var newShowtime = new Showtime
             {
                 StartTime = request.StartTime,
@@ -49,12 +49,26 @@ namespace E_Project_3_API.Services
 
             foreach (var showtime in showtimes)
             {
-                var showtimeResponse = new ShowtimeResponse
+                var showtimeResponse = new ShowtimeResponse();
+
+                showtimeResponse.Id = showtime.Id;
+                if (showtime.EndTime.Minute < 10)
                 {
-                    Id = showtime.Id,
-                    StartTime = showtime.StartTime,
-                    EndTime = showtime.EndTime
-                };
+                    showtimeResponse.EndTime = showtime.EndTime.Hour + ":0" + showtime.EndTime.Minute;
+                }
+                else
+                {
+                    showtimeResponse.EndTime = showtime.EndTime.Hour + ":" + showtime.EndTime.Minute;
+                }
+
+                if (showtime.StartTime.Minute < 10)
+                {
+                    showtimeResponse.StartTime = showtime.StartTime.Hour + ":0" + showtime.StartTime.Minute;
+                }
+                else
+                {
+                    showtimeResponse.StartTime = showtime.StartTime.Hour + ":" + showtime.StartTime.Minute;
+                }
 
                 response.Add(showtimeResponse);
             }
@@ -70,12 +84,27 @@ namespace E_Project_3_API.Services
                 return null;
             }
 
-            var response = new ShowtimeResponse
+            var response = new ShowtimeResponse();
+
+            response.Id = showtime.Id;
+            if (showtime.EndTime.Minute < 10)
             {
-                Id = showtime.Id,
-                StartTime = showtime.StartTime,
-                EndTime = showtime.EndTime
-            };
+                response.EndTime = showtime.EndTime.Hour + ":0" + showtime.EndTime.Minute;
+            }
+            else
+            {
+                response.EndTime = showtime.EndTime.Hour + ":" + showtime.EndTime.Minute;
+            }
+
+            if (showtime.EndTime.Minute < 10)
+            {
+                response.StartTime = showtime.StartTime.Hour + ":0" + showtime.StartTime.Minute;
+            }
+            else
+            {
+                response.StartTime = showtime.StartTime.Hour + ":" + showtime.StartTime.Minute;
+            }
+
 
             return response;
         }
@@ -84,7 +113,7 @@ namespace E_Project_3_API.Services
         //{
         //    var response = new ShowtimeModifyResponse();
 
-           
+
         //    if (request.EndTime <= request.StartTime)
         //    {
         //        response.Error.EndTimeError = "End time must be greater than start time.";
@@ -98,7 +127,7 @@ namespace E_Project_3_API.Services
         //        return response;
         //    }
 
-           
+
         //    existingShowtime.StartTime = request.StartTime;
         //    existingShowtime.EndTime = request.EndTime;
 
@@ -112,7 +141,7 @@ namespace E_Project_3_API.Services
         {
             var response = new ShowtimeModifyResponse();
 
-           
+
             var showtimeToDelete = _dataContext.Showtimes.Find(id);
             if (showtimeToDelete == null)
             {
@@ -131,11 +160,12 @@ namespace E_Project_3_API.Services
         {
             var tickets = from m in _dataContext.Movies
                           join t in _dataContext.Tickets on m.Id equals t.Movie.Id
+                          where t.Movie.Id == movieId
                           select new
                           {
                               TicketId = t.Id
                           };
-            
+
             var ticketList = new List<Ticket>();
             foreach (var item in tickets)
             {
@@ -144,12 +174,27 @@ namespace E_Project_3_API.Services
             var showtimes = new List<ShowtimeResponse>();
             foreach (var item in ticketList)
             {
-                showtimes.Add(new ShowtimeResponse
+                var response = new ShowtimeResponse();
+
+                response.Id = item.Showtime.Id;
+                if (item.Showtime.EndTime.Minute < 10)
                 {
-                    Id = item.Showtime.Id,
-                    EndTime = item.Showtime.EndTime,
-                    StartTime = item.Showtime.StartTime
-                });
+                    response.EndTime = item.Showtime.EndTime.Hour + ":0" + item.Showtime.EndTime.Minute;
+                }
+                else
+                {
+                    response.EndTime = item.Showtime.EndTime.Hour + ":" + item.Showtime.EndTime.Minute;
+                }
+
+                if (item.Showtime.EndTime.Minute < 10)
+                {
+                    response.StartTime = item.Showtime.StartTime.Hour + ":0" + item.Showtime.StartTime.Minute;
+                }
+                else
+                {
+                    response.StartTime = item.Showtime.StartTime.Hour + ":" + item.Showtime.StartTime.Minute;
+                }
+                showtimes.Add(response);
             }
             var showtimeList = showtimes.Distinct(new Comparer()).ToList();
             return showtimeList;

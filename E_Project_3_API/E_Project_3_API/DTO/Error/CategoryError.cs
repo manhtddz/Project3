@@ -4,7 +4,6 @@
     {
         public string ExistedError { get; set; } = "";
         public string NameError { get; set; } = "";
-        public string ImageError { get; set; } = "";
         public string TypeError { get; set; } = "";
     }
 }

@@ -7,8 +7,8 @@ namespace E_Project_3_API.Services.Interfaces
     {
         List<SeatsResponse> GetAllSeats();
         SeatsResponse GetSeat(int id);
-        SeatsModifyResponse CreateSeat(SeatsRequest request);
-        SeatsModifyResponse UpdateSeat(int id, SeatsRequest request);
+        SeatsModifyResponse CreateSeat(SeatRequest request);
+        SeatsModifyResponse UpdateSeat(int id, SeatRequest request);
         SeatsModifyResponse DeleteSeat(int id);
     }
 }

@@ -8,6 +8,7 @@ namespace E_Project_3_API.Services.Interfaces
     {
         IEnumerable<DateResponse> GetAllDates();
         DateResponse GetDateById(int id);
+        void CreateSomeDates(int dayQty);
         void CreateDate(DateRequest date);
         void UpdateDate(int id, Date date);
         void DeleteDate(int id);

@@ -211,5 +211,80 @@ namespace E_Project_3_API.Services
             return responses;
         }
 
+        public List<MovieResponse> GetAllSearchMovies(string searchText)
+        {
+            var movies = from g in _dataContext.Genres
+                           join m in _dataContext.Movies on g.Id equals m.Genre.Id
+                           where m.Name.Contains(searchText)
+                           || m.Genre.Name.Contains(searchText)
+                           select new
+                           {
+                               MovieId = m.Id,
+                           };
+            var takenMovies = new List<Movie>();
+            var responses = new List<MovieResponse>();
+
+            foreach (var item in movies)
+            {
+                takenMovies.Add(_dataContext.Find<Movie>(item.MovieId));
+            }
+            foreach (var item in takenMovies)
+            {
+                responses.Add(new MovieResponse
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Image = item.Image,
+                    Price = item.Price,
+                    ShopName = item.Shop.Name,
+                    ShopId = item.Shop.Id,
+                    Genre = item.Genre.Name,
+                    GenreId = item.Genre.Id,
+                    Active = item.Active
+                });
+            }
+            return responses;
+        }
+
+        public List<MovieResponse> GetPagingSearchMovies(int startIndex, int limit, string searchText)
+        {
+            var movies = from g in _dataContext.Genres
+                           join m in _dataContext.Movies on g.Id equals m.Genre.Id
+                           where m.Name.Contains(searchText)
+                           || m.Genre.Name.Contains(searchText)
+                           select new
+                           {
+                               MovieId = m.Id,
+                           };
+            var takenMovies = new List<Movie>();
+            var responses = new List<MovieResponse>();
+
+            foreach (var item in movies)
+            {
+                takenMovies.Add(_dataContext.Find<Movie>(item.MovieId));
+            }
+            for (int i = startIndex; i < limit + startIndex; i++)
+            {
+                if (i >= takenMovies.Count)
+                {
+                    break;
+                }
+                responses.Add(new MovieResponse
+                {
+                    Id = takenMovies[i].Id,
+                    Name = takenMovies[i].Name,
+                    Description = takenMovies[i].Description,
+                    Image = takenMovies[i].Image,
+                    Price = takenMovies[i].Price,
+                    ShopName = takenMovies[i].Shop.Name,
+                    ShopId = takenMovies[i].Shop.Id,
+                    Genre = takenMovies[i].Genre.Name,
+                    GenreId = takenMovies[i].Genre.Id,
+                    Active = takenMovies[i].Active
+                });
+            }
+            return responses;
+        }
     }
 }

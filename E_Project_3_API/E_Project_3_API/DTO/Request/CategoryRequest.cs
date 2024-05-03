@@ -4,6 +4,5 @@
     {
         public int TypeId { get; set; } = 0;
         public string Name { get; set; }
-        public string Image { get; set; }
     }
 }

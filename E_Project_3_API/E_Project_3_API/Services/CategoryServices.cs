@@ -23,7 +23,6 @@ namespace E_Project_3_API.Services
                 Name = category.Name,
                 TypeId = category.Type.Id,
                 TypeName = category.Type.Name,
-                Image = category.Image,
                 Active = category.Active
             };
             return categoryResponse;
@@ -34,7 +33,7 @@ namespace E_Project_3_API.Services
             var categoryModifyResponse = new CategoryModifyResponse();
             var existedType = _dataContext.Find<Models.Type>(request.TypeId);
             var existedCategory = GetAllCategories().SingleOrDefault(t => t.Name == request.Name);
-            if (request.Name != "" && request.Image != "" && existedType != null)
+            if (request.Name != "" && existedType != null)
             {
                 if (existedCategory != null)
                 {
@@ -45,7 +44,6 @@ namespace E_Project_3_API.Services
                 var newCategory = new Category()
                 {
                     Name = request.Name,
-                    Image = request.Image,
                     Type = existedType
                 };
                 _dataContext.Add(newCategory);
@@ -58,10 +56,6 @@ namespace E_Project_3_API.Services
                 if (request.Name == "")
                 {
                     categoryModifyResponse.Error.NameError = "Name is required";
-                }
-                if(request.Image == "")
-                {
-                    categoryModifyResponse.Error.ImageError = "ImgUrl is required";
                 }
                 if (existedType == null)
                 {
@@ -112,7 +106,7 @@ namespace E_Project_3_API.Services
             var categoryModifyResponse = new CategoryModifyResponse();
             var existedType = _dataContext.Find<Models.Type>(request.TypeId);
             var existedCategory = _dataContext.Find<Category>(id);
-            if (request.Name != "" && request.Image != "" && existedType != null)
+            if (request.Name != "" &&  existedType != null)
             {
                 if (existedCategory == null)
                 {
@@ -120,7 +114,6 @@ namespace E_Project_3_API.Services
                     return categoryModifyResponse;
                 }
                 existedCategory.Name = request.Name;
-                existedCategory.Image = request.Image;
                 existedCategory.Type = existedType;
                 _dataContext.Update(existedCategory);
                 _dataContext.SaveChanges();
@@ -132,10 +125,6 @@ namespace E_Project_3_API.Services
                 if (request.Name == "")
                 {
                     categoryModifyResponse.Error.NameError = "Name is required";
-                }
-                if(request.Image == "")
-                {
-                    categoryModifyResponse.Error.ImageError = "ImgUrl is required";
                 }
                 if (existedType == null)
                 {

@@ -84,11 +84,17 @@ namespace E_Project_3_API.Controllers
             var result = _ticketServices.GetTicketByMovie(movieId).Count();
             return Ok(result);
         }
-        [HttpPut("{id}/{uid}")]
-        public IActionResult BookingTicket(int id, int uid)
+        [HttpPut("{id}")]
+        public IActionResult BookingTicket(int id, UserRequest request)
         {
-            var result = _ticketServices.BookingTicket(id, uid);
+            var result = _ticketServices.BookingTicket(id, request);
             return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult TotalIncome()
+        {
+            return Ok(_ticketServices.TotalIncome());
         }
     }
 }

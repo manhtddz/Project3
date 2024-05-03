@@ -9,8 +9,6 @@ namespace E_Project_3_API.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Image { get; set; }
-        [Required]
         public bool Active { get; set; } = true;
         public virtual Type Type { get; set; }
         public virtual List<Product> Products { get; set; }

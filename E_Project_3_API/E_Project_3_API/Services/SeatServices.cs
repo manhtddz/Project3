@@ -17,7 +17,7 @@ namespace E_Project_3_API.Services
             _dataContext = dataContext;
         }
 
-        public SeatsModifyResponse CreateSeat(SeatsRequest request)
+        public SeatsModifyResponse CreateSeat(SeatRequest request)
         {
             var response = new SeatsModifyResponse();
 
@@ -83,7 +83,7 @@ namespace E_Project_3_API.Services
             return response;
         }
 
-        public SeatsModifyResponse UpdateSeat(int id, SeatsRequest request)
+        public SeatsModifyResponse UpdateSeat(int id, SeatRequest request)
         {
             var response = new SeatsModifyResponse();
 

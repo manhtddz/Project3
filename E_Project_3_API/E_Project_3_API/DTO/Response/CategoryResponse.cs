@@ -9,7 +9,6 @@ namespace E_Project_3_API.DTO.Response
         public string Name { get; set; }
         public int TypeId { get; set; }
         public string TypeName { get; set; }
-        public string Image { get; set; }
         public bool Active { get; set; }
     }
 

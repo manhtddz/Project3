@@ -6,7 +6,7 @@ namespace E_Project_3_API.DTO.Response
     public class DateResponse
     {
         public int Id { get; set; }
-        public DateTime Day { get; set; }
+        public string Day { get; set; }
         
     }
 

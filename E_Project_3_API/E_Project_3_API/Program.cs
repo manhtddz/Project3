@@ -26,6 +26,8 @@ builder.Services.AddScoped<ITheaterServices, TheaterServices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
 builder.Services.AddScoped<ITicketServices, TicketServices>();
+builder.Services.AddScoped<IFeedbackServices, FeedbackServices>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "AllowAll",

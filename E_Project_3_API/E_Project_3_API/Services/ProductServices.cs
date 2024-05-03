@@ -302,7 +302,9 @@ namespace E_Project_3_API.Services
             var products = from t in _dataContext.Types
                            join c in _dataContext.Categories on t.Id equals c.Type.Id
                            join p in _dataContext.Products on c.Id equals p.Category.Id
-                           where t.Id == typeId && (p.Name.Contains(searchText) || p.Shop.Name.Contains(searchText))
+                           where t.Id == typeId && (p.Name.Contains(searchText)
+                           || p.Shop.Name.Contains(searchText)
+                           || p.Category.Name.Contains(searchText))
                            select new
                            {
                                ProductId = p.Id,
@@ -338,7 +340,9 @@ namespace E_Project_3_API.Services
             var products = from t in _dataContext.Types
                            join c in _dataContext.Categories on t.Id equals c.Type.Id
                            join p in _dataContext.Products on c.Id equals p.Category.Id
-                           where t.Id == typeId && (p.Name.Contains(searchText) || p.Shop.Name.Contains(searchText))
+                           where t.Id == typeId && (p.Name.Contains(searchText)
+                           || p.Shop.Name.Contains(searchText)
+                           || p.Category.Name.Contains(searchText))
                            select new
                            {
                                ProductId = p.Id,

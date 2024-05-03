@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using E_Project_3_API.DTO.Request;
 using E_Project_3_API.DTO.Response;
 using E_Project_3_API.Models;
 using E_Project_3_API.Services.Interfaces;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace E_Project_3_API.Services
 {
@@ -20,13 +22,13 @@ namespace E_Project_3_API.Services
         public IEnumerable<DateResponse> GetAllDates()
         {
             List<DateResponse> result = new List<DateResponse>();
-            var dateList = _context.Set<Date>().ToList();
+            var dateList = _context.Set<Models.Date>().ToList();
             foreach ( var date in dateList )
             {
                 result.Add(new DateResponse()
                 {
                     Id = date.Id,
-                    Day = date.Day
+                    Day = date.Day.Day + "/" + date.Day.Month + "/" + date.Day.Year
                 });
             }
             return result;
@@ -34,7 +36,7 @@ namespace E_Project_3_API.Services
 
         public DateResponse GetDateById(int id)
         {
-            var date = _context.Find<Date>(id);
+            var date = _context.Find<Models.Date>(id);
             if (date == null)
             {
                 throw new Exception();
@@ -42,9 +44,23 @@ namespace E_Project_3_API.Services
             var response = new DateResponse()
             {
                 Id = date.Id,
-                Day = date.Day
+                Day = date.Day.Day + "/" + date.Day.Month + "/" + date.Day.Year
             };
             return response;
+        }
+
+        public void CreateSomeDates(int dayQty)
+        {
+            var existedDateList = _context.Set<Models.Date>().ToList();
+            for (int i = 0; i < dayQty; i++)
+            {
+                var newDate = new Models.Date
+                {
+                    Day = existedDateList.Last().Day.AddDays(1).Date
+                };
+                _context.Dates.Add(newDate);
+                _context.SaveChanges();
+            }
         }
 
         public void CreateDate(DateRequest request)
@@ -52,7 +68,7 @@ namespace E_Project_3_API.Services
             var existedDate = _context.Dates.FirstOrDefault(d => d.Day.Date == request.Day.Date);
             if (existedDate == null)
             {
-                var newDate = new Date
+                var newDate = new Models.Date
                 {
                     Day = request.Day.Date
                 };
@@ -61,7 +77,7 @@ namespace E_Project_3_API.Services
             }
         }
 
-        public void UpdateDate(int id, Date date)
+        public void UpdateDate(int id, Models.Date date)
         {
             var existingDate = _context.Dates.FirstOrDefault(d => d.Id == id);
             if (existingDate != null)
@@ -89,7 +105,7 @@ namespace E_Project_3_API.Services
         {
             var tickets = from m in _context.Movies
                           join t in _context.Tickets on m.Id equals t.Movie.Id
-                          where t.Date.Day >= DateTime.Today.Date
+                          where t.Date.Day >= DateTime.Today.Date && m.Id == movieId
                           select new
                           {
                               TicketId = t.Id
@@ -106,7 +122,7 @@ namespace E_Project_3_API.Services
                 dates.Add(new DateResponse
                 {
                     Id = item.Date.Id,
-                    Day = item.Date.Day
+                    Day = item.Date.Day.Day + "/" + item.Date.Day.Month + "/" + item.Date.Day.Year
                 });
             }
             var showtimeList = dates.Distinct(new Comparer()).ToList();

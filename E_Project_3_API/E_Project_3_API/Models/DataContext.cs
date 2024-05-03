@@ -13,26 +13,11 @@ namespace E_Project_3_API.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Shop> Shops { get; set; }
-        //public DbSet<Order> Orders { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Theater> Theaters { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
-        //public DbSet<OrderDetail> OrderDetails { get; set; }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<OrderDetail>()
-        //        .HasKey(od => new { od.OrderId, od.ProductId });
-        //    modelBuilder.Entity<OrderDetail>()
-        //        .HasOne(o => o.Order)
-        //        .WithMany(od => od.Details)
-        //        .HasForeignKey(p => p.ProductId);
-        //    modelBuilder.Entity<OrderDetail>()
-        //       .HasOne(p => p.Product)
-        //       .WithMany(od => od.Details)
-        //       .HasForeignKey(o => o.OrderId);
-        //}
+        public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

@@ -73,5 +73,17 @@ namespace E_Project_3_API.Controllers
             var result = _movieService.GetAllMovies().Count();
             return Ok(result);
         }
+        [HttpGet("{startIndex}/{limit}/{searchText}")]
+        public IActionResult GetPagingSearchMovies(int startIndex, int limit, string searchText)
+        {
+            var result = _movieService.GetPagingSearchMovies(startIndex, limit, searchText);
+            return Ok(result);
+        }
+        [HttpGet("{searchText}")]
+        public IActionResult GetLengthOfSearchMovies(string searchText)
+        {
+            var result = _movieService.GetAllSearchMovies( searchText).Count();
+            return Ok(result);
+        }
     }
 }
