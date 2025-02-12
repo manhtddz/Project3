@@ -1,0 +1,44 @@
+<app-nav-header (typeIdChanged)="typeIdChangeHandler($event)"></app-nav-header>
+<div class="content">
+    <div class="titile">
+        <h4 *ngIf="type"> {{type.name}}</h4>
+        <div class="search-box">
+            <input type="search" placeholder="Search Here..." [(ngModel)]="searchText">
+            <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
+        </div>
+        <div class="reset-button" (click)="undoSearch()">Reset</div>
+    </div>
+
+    <div class="all-items">
+        <div class="item" *ngFor="let product of response">
+            <a routerLink="/product/{{product.id}}/details">
+                <div class="div-img">
+                    <img [src]="product.image" alt="">
+                </div>
+                <div class="div-text">
+                    <h4>
+                        <div>{{product.name}}</div>
+                    </h4>
+                    <p>{{product.shopName}}</p>
+
+                    <div class="product-prices" data-check="">
+                        <div class="product-prices" rel-script="product-price">
+                            <ins (keyup)="moneyConvert(product.price,$event)">{{product.price | number: '1.0-0'}} vnđ</ins>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="no-item" *ngIf="response.length === 0">
+            <p>Can't find any item with this details</p>
+        </div>
+        <div class="load-page" *ngIf="pageCount > 1">
+            <button class="custom-button" (click)="prev()" [disabled]="startIndex == 0"><</button>
+            <input type="text" [value]="startIndex + 1" disabled class="start-index">
+            <button class="custom-button" (click)="next()"
+                [disabled]="startIndex*stepIndex + stepIndex >= length">></button>
+        </div>
+    </div>
+    
+</div>
+<app-footer></app-footer>

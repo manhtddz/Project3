@@ -1,0 +1,36 @@
+<div class="footer">
+    <div class="contanier">
+        <div class="row">
+            <h3>R<span>-Mall</span></h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur quas quam eum repellat ex. Autem error
+                reiciendis dolore harum nisi.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>contact</h3>
+            <ul>
+                <li><i class="bx bx-chevron-right"></i><a>19 - Le Thanh Nghi</a></li>
+                <li><i class="bx bx-chevron-right"></i><a>+2365 2556 22</a></li>
+                <li><i class="bx bx-chevron-right"></i><a>{{'rmall@gmail.com'}}</a></li>
+
+            </ul>
+        </div>
+        <div class="row">
+            <h3>Our Site:</h3>
+            <ul>
+                <li><a routerLink="">Home</a><li>
+                <li><a routerLink="/movieTheater">Movie</a><li>
+                <li *ngIf="types"><a routerLink="/product/{{types[0].id}}/gallery">Marketplace</a><li>
+                <li><a routerLink="/contact">Contact Us</a><li>
+                <li><a routerLink="/aboutUs">About Us</a><li>
+            </ul>
+
+
+        </div>
+    </div>
+</div>

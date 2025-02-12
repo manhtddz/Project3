@@ -1,0 +1,57 @@
+<div class="card p-1">
+    <div class="row mb-3" *ngIf="response">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Movie Name: </h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+            {{response.name}}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Theater: </h6>
+        </div>
+        <div class="col-sm-9 text-secondary" *ngIf="theaters">
+            <select class="form-control w-25" aria-label=".form-select-lg example" [(ngModel)]="theaterId">
+                <ng-container *ngFor="let theater of theaters">
+                    <option [value]="theater.id">{{theater.name}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Date: </h6>
+        </div>
+        <div class="col-sm-9 text-secondary" *ngIf="dates">
+            <select class="form-control w-25" aria-label=".form-select-lg example" [(ngModel)]="dateId">
+                <ng-container *ngFor="let date of dates">
+                    <option [value]="date.id">{{date.day}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-3">
+            <h6 class="mb-0">Showtime: </h6>
+        </div>
+        <div class="col-sm-9 text-secondary" *ngIf="showtimes">
+            <select class="form-control w-25" aria-label=".form-select-lg example" [(ngModel)]="showtimeId">
+                <ng-container *ngFor="let showtime of showtimes">
+                    <option [value]="showtime.id">{{showtime.startTime + '~'+ showtime.endTime}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9 text-secondary" *ngIf="!createResponse.isModified">
+            <div><sup>{{createResponse.error.notFoundErrorMessage}}</sup></div>
+            <input type="button" class="btn btn-primary px-4" value="Save Changes" (click)="Create()">
+        </div>
+        <div class="col-sm-9 text-secondary" *ngIf="createResponse.isModified">
+            <div><sup>Assign successfully</sup></div>
+            <input type="button" class="btn btn-primary px-4" value="Turn Back" routerLink="/redirectMovie">
+        </div>
+    </div>
+</div>

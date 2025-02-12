@@ -1,0 +1,16 @@
+.img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+}
+.img img{
+    width: 100%;
+}
+.ww{
+    word-break: keep-all;
+}
+.set-position{
+    margin-left: 30%;
+    width: 65%;
+}

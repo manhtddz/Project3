@@ -1,0 +1,36 @@
+<app-nav-header></app-nav-header>
+<div class="product-details" *ngIf="response">
+    <div class="product-image">
+        <img [src]="response.image" [alt]="response.name">
+    </div>
+    <div class="product-single__sticky">
+        <h1 rel-script="product-single-title" class="product-single__title">
+            {{response.name}}
+        </h1>
+        <h4>{{response.categoryName}}</h4>
+        <div>
+            Shop: {{response.shopName}}
+        </div>
+        <br>
+        <div id="pro-price" class="product-single__price-infomation">
+            <div rel-script="product-single-prices" data-total-variants-price="" class="product-price"><ins
+                    class="product-single__regular-price"
+                    (keyup)="moneyConvert(response.price,$event)">{{response.price| number: '1.0-0'}} vnđ</ins></div>
+        </div><br>
+        <div class="product-single__addtocart">
+            <div class="product-single__features">
+                <div class="product-features">
+                    <div class="product-features__heading" rel-script="features-toggle">Prominent features</div>
+                    <hr>
+
+                    <div class="product-features__item">
+                        <li>{{response.description}}</li>
+                    </div><br>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

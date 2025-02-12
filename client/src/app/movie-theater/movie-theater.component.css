@@ -1,0 +1,42 @@
+.btn-danger{
+    background-color: red;
+}
+a{
+    text-decoration: none;
+}
+.no-item{
+    margin-bottom: 10%;
+    margin-top: 10%;
+    margin-left: 41.5%;
+}
+.custom-button{
+    width: 15% ;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 0.5px solid #fcc83f;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+
+}
+.load-page{
+    width: 20%;
+    text-align: center;
+    position: absolute;
+    bottom: 1%;
+    left: 40%;
+}
+.start-index{
+    width: 15%;
+    text-align: center;
+    color: #313131;
+    background-color: #fcc83f;
+    border-radius: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 0.5px solid #fcc83f;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+}

@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-body set-position" *ngIf="response" >
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Product Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.name}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Shop Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.shopName}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Category Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.categoryName}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Price: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary"(keyup)="moneyConvert(response.price,$event)">
+                {{response.price| number: '1.0-0'}} vnđ
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Description: </h6>
+            </div>
+            <div class="col-sm-9 width ww">
+                {{response.description}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Status: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.active ? 'Active': 'Disable'}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary">
+                <input type="button" class="btn btn-primary px-4" value="Edit" routerLink="/product/{{response.id}}/edit">
+            </div>
+        </div>
+        <div class="img">
+            <img [src]="response.image" [alt]="response.name">
+        </div>  
+    </div>
+</div>

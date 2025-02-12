@@ -1,0 +1,40 @@
+<app-nav-header></app-nav-header>
+<div class="content">
+    <div class="titile">
+        <h4> movies</h4>
+        <div class="search-box">
+            <input type="search" placeholder="Search Here..." [(ngModel)]="searchText">
+            <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
+        </div>
+        <div class="reset-button" (click)="undoSearch()">Reset</div>
+    </div>
+
+    <div class="all-items" *ngIf="response">
+        <div class="item" *ngFor="let movie of response">
+            <div class="div-img">
+                <img [src]="movie.image" alt="">
+            </div>
+            <div class="div-text">
+                <h4>
+                    <div>{{movie.name}}</div>
+                </h4>
+                <p>Genre: {{movie.genre}}</p>
+                
+                <button [class]="movie.active?'btn btn-primary py-1': 'btn btn-danger py-1'" routerLink="/movie/{{movie.id}}/details" [disabled]="!movie.active">
+                    {{movie.active?'Buy ticket now':'Not available'}}
+                </button>
+            </div>
+        </div>
+        <div class="no-item" *ngIf="response.length === 0">
+            <p>Can't find any movie with this details</p>
+        </div>
+    </div>
+
+    <div class="load-page" *ngIf="pageCount > 1">
+        <button class="custom-button" (click)="prev()" [disabled]="startIndex == 0"><</button>
+        <input type="text" [value]="startIndex + 1" disabled class="start-index">
+        <button class="custom-button" (click)="next()"
+            [disabled]="startIndex*stepIndex + stepIndex >= length">></button>
+    </div>
+</div>
+<app-footer></app-footer>

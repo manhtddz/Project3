@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Alert: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                Are you sure deleting this type with id = {{shopId}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary" *ngIf="!response.isModified">
+                <input type="button" class="btn btn-danger px-4" value="Delete" (click)="deleteShop()">
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="response.isModified">
+                <div><sup>Delete successfully</sup></div>
+                <input type="button" class="btn btn-primary px-4" value="Turn Back"
+                    [routerLink]="response.isModified? '/redirectShop':null">
+            </div>
+        </div>
+    </div>
+</div>

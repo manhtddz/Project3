@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Product Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary"*ngIf="product">
+                <input type="text" class="form-control" [(ngModel)]="product.name">
+                <div><sup>{{response.error.nameError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Description: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="product">
+                <textarea class="form-control" [(ngModel)]="product.description"></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Price: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="product">
+                <input type="number" class="form-control" [(ngModel)]="product.price">
+                <div><sup>{{response.error.priceError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Image Url: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="product">
+                <input type="text" class="form-control" [(ngModel)]="product.image">
+                <div><sup>{{response.error.imageError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Shop: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="product">
+                <select class="form-control w-25" aria-label=".form-select-lg example" [(ngModel)]="shopId">
+                    <ng-container *ngFor="let shop of shops">
+                        <option [value]="shop.id">{{shop.name}}</option>
+                    </ng-container>
+                </select>
+                <div><sup>{{response.error.shopError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Shop: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="product">
+                <select class="form-control w-25" aria-label=".form-select-lg example" [(ngModel)]="cateId">
+                    <ng-container *ngFor="let category of categories">
+                        <option [value]="category.id">{{category.name}}</option>
+                    </ng-container>
+                </select>
+                <div><sup>{{response.error.categoryError}}</sup></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary" *ngIf="!response.isModified">
+                <input type="button" class="btn btn-primary px-4" value="Save Changes" (click)="editProduct()">
+            </div>
+
+            <div class="col-sm-9 text-secondary" *ngIf="response.isModified">
+                <div><sup>Product edit successfully</sup></div>
+                <input type="button" class="btn btn-primary px-4" value="Turn Back" routerLink="/redirectProduct">
+            </div>
+        </div>
+    </div>
+</div>

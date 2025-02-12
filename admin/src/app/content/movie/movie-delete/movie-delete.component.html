@@ -1,0 +1,45 @@
+<div class="card">
+    <div class="card-body" *ngIf="movie">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Alert: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                Are you sure deleting this movie with id = {{movieId}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary" *ngIf="!deleteResponse.isModified">
+                <input type="button" class="btn btn-danger px-4" value="Delete" (click)="deleteMovie()">
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="deleteResponse.isModified">
+                <div><sup>Delete successfully</sup></div>
+                <input type="button" class="btn btn-primary px-4" value="Turn Back"
+                    [routerLink]="deleteResponse.isModified? '/redirectMovie':null">
+            </div>
+        </div>
+        <br>
+        <ng-container *ngIf="movie.active">
+            <div class="row mb-3">
+                <div class="col-sm-3">
+                    <h6 class="mb-0"> </h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    Or disable it:
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9 text-secondary" *ngIf="!disableResponse.isModified">
+                    <input type="button" class="btn btn-danger px-4" value="Disable" (click)="disableMovie()">
+                </div>
+                <div class="col-sm-9 text-secondary" *ngIf="disableResponse.isModified">
+                    <div><sup>Disable successfully</sup></div>
+                    <input type="button" class="btn btn-primary px-4" value="Turn Back"
+                        [routerLink]="disableResponse.isModified? '/redirectMovie':null">
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

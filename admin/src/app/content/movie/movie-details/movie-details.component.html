@@ -1,0 +1,62 @@
+<div class="card" *ngIf="response">
+    <div class="card-body set-position" style="position: relative;">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Movie Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.name}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Cinema: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.shopName}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Genre: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.genre}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Price: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary"(keyup)="moneyConvert(response.price,$event)">
+                {{response.price| number: '1.0-0'}} vnđ
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Description: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary ww">
+                {{response.description}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Status: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.active ? 'Active': 'Disable'}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary">
+                <input type="button" class="btn btn-primary px-4" value="Edit" routerLink="/movie/{{response.id}}/edit">
+            </div>
+        </div>
+    </div>
+    <div class="img">
+        <img [src]="response.image" [alt]="response.name">
+    </div>
+    
+</div>

@@ -1,0 +1,142 @@
+<div class="wrapper" *ngIf="authRes.isLogin === false">
+    <div class="section">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <input class="checkbox" type="checkbox" aria-hidden="true" id="chk" name="reg-log" />
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper">
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">Log In</h4>
+                                            <div class="form-group">
+                                                <input type="text" name="logemail" class="form-style"
+                                                    placeholder="Your Email" autocomplete="off"
+                                                    [(ngModel)]="emailForLogin">
+                                                <div><sup>{{loginResponse.errors.emailEmptyError}}</sup></div>
+                                                <div><sup>{{loginResponse.errors.notExistedError}}</sup></div>
+
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style"
+                                                    placeholder="Your Password" autocomplete="off"
+                                                    [(ngModel)]="passwordForLogin">
+                                                <div><sup>{{loginResponse.errors.passwordError}}</sup></div>
+                                                <div><sup>{{loginResponse.errors.passwordEmptyError}}</sup></div>
+
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <a class="btn mt-4" (click)="login()">login</a>
+                                            <p class="mb-0 mt-4 text-center">Don't have any account? Go to <label
+                                                    for="chk">register </label></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">Sign Up</h4>
+                                            <div class="form-group">
+                                                <input type="text" name="logname" class="form-style"
+                                                    placeholder="Your Full Name" autocomplete="off"
+                                                    [(ngModel)]="usernameForReg">
+                                                <div><sup>{{registerResponse.errors.emailError}}</sup></div>
+                                                <div><sup>{{registerResponse.errors.existedError}}</sup></div>
+
+                                                <i class="input-icon uil uil-user"></i>
+
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="email" name="logemail" class="form-style"
+                                                    placeholder="Your Email" autocomplete="off"
+                                                    [(ngModel)]="emailForReg">
+                                                <div><sup>{{registerResponse.errors.usernameError}}</sup></div>
+
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style"
+                                                    placeholder="Your Password" autocomplete="off"
+                                                    [(ngModel)]="passwordForReg">
+                                                <div><sup>{{registerResponse.errors.passwordError}}</sup></div>
+
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <a class="btn mt-4" (click)="register()">register</a>
+                                            <div *ngIf="registerResponse.isRegistered === true"><sup>Register success</sup></div>
+                                            <p class="mb-0 mt-4 text-center"><label for="chk">Go back to login </label>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Page Wrapper -->
+<div id="wrapper" *ngIf="authRes.isLogin === true">
+    <!-- Sidebar -->
+    <app-side-bar></app-side-bar>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-3 static-top shadow">
+
+
+                <ul class="navbar-nav ml-auto">
+
+
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small" *ngIf="name != ''">{{name}}
+                            </span>
+                        </a>
+
+                    </li>
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle">
+                            <span (click)="logout()">logout</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav> <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Content Row -->
+                <card></card>
+
+                <!-- Content Row -->
+
+                <div class="row">
+
+                    <!-- Area Chart -->
+                    <div class=" col-lg-12">
+                        <router-outlet></router-outlet>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

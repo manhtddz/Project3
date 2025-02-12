@@ -1,0 +1,60 @@
+<div class="card shadow mb-0">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Movies</h6>
+    </div>
+    <!-- Card Body -->
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <button class="btn bg-primary text-white" routerLink="/movie/create">Create</button>
+            <span class="date-generate-area">Generate </span>
+            <input type="number" class="no-wrap-input" [(ngModel)]="dateGenerate" [max]="10" [min]="0">
+            <span>days</span>
+            <button class="btn bg-primary text-white" (click)="generateDate()">Generate</button>
+            <div class="date-message"><sup *ngIf="dateGenerate !== 0">{{generateDatesResponse.message}}</sup></div>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngFor="let movie of response;let i = index">
+                    <tr>
+                        <td>{{movie.id}}</td>
+                        <td>{{movie.name}}</td>
+                        <td class="image">
+                            <img [src]="movie.image" [alt]="movie.name">
+                        </td>
+                        <td (keyup)="moneyConvert(movie.price,$event)">{{movie.price| number: '1.0-0'}} vnđ </td>
+                        <td>{{movie.active ? 'active':'disabled'}}</td>
+                        <td>
+                            <button class="btn btn-outline-info"
+                                routerLink="/movie/{{movie.id}}/details">Details</button>
+                            <button class="btn btn-outline-primary" routerLink="/movie/{{movie.id}}/edit">Edit</button>
+                            <button class="btn btn-outline-danger"
+                                routerLink="/movie/{{movie.id}}/delete">Delete</button>
+                            <button class="btn btn-outline-success"
+                                routerLink="/movie/{{movie.id}}/assign">Assign</button>
+                            <button class="btn btn-outline-secondary"
+                                routerLink="/movie/{{movie.id}}/ticket">Ticket</button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="load-page" *ngIf="pageCount > 1">
+                <button class="custom-button" (click)="prev()" [disabled]="startIndex == 0"><</button>
+                <input type="text" [value]="startIndex + 1" disabled class="start-index">
+                <button class="custom-button" (click)="next()"
+                    [disabled]="startIndex*stepIndex + stepIndex >= length">></button>
+            </div>
+            <span class="total-pages">Total pages: {{pageCount}}</span>
+        </div>
+    </div>
+</div>

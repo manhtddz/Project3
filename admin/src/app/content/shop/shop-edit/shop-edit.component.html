@@ -1,0 +1,68 @@
+<div class="card">
+    <div class="card-body" *ngIf="shop">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Shop Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <input type="text" class="form-control" [(ngModel)]="shop.name">
+                <div><sup>{{response.error.nameError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Logo Url: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <input type="text" class="form-control" [(ngModel)]="shop.logo">
+                <div><sup>{{response.error.logoError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Email: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <input type="text" class="form-control" [(ngModel)]="shop.email">
+                <div><sup>{{response.error.emailError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Phone: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <input type="text" class="form-control" [(ngModel)]="shop.phone">
+                <div><sup>{{response.error.phoneError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Address: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <input type="text" class="form-control" [(ngModel)]="shop.address">
+                <div><sup>{{response.error.addressError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Description: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                <textarea class="form-control" [(ngModel)]="shop.description"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary" *ngIf="!response.isModified">
+                <input type="button" class="btn btn-primary px-4" value="Save Changes" (click)="editShop()">
+            </div>
+
+            <div class="col-sm-9 text-secondary" *ngIf="response.isModified">
+                <div><sup>Shop edit successfully</sup></div>
+                <input type="button" class="btn btn-primary px-4" value="Turn Back" routerLink="/redirectShop">
+            </div>
+        </div>
+    </div>
+</div>

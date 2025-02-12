@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-body" *ngIf="response">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Category Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.name}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Type Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.typeName}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Status: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary">
+                {{response.active ? 'Active': 'Disable'}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary">
+                <input type="button" class="btn btn-primary px-4" value="Edit" routerLink="/category/{{response.id}}/edit">
+            </div>
+        </div>
+    </div>
+</div>

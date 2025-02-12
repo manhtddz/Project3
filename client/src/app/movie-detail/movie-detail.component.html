@@ -1,0 +1,63 @@
+<app-nav-header></app-nav-header>
+<div class="item-1" *ngIf="response">
+    <div class="div-img">
+        <img [src]="response.image" alt="TROLL FACTORY">
+    </div>
+
+    <div class="div-text">
+        <h4>{{response.name}}</h4>
+        <div class="description">
+            <p>{{response.description}}</p>
+        </div>
+        <div class="cats">Movie Genre: {{response.genre}}</div>
+        <div class="ticket-price">Ticket Price: <ins (keyup)="moneyConvert(response.price,$event)">{{response.price | number: '1.0-0'}} vnđ</ins></div>
+
+        
+
+
+        <div class="buttons">
+            <div class="form-container">
+
+                <label for="date">Select Date:</label>
+                <select id="date" [(ngModel)]="dateId" (ngModelChange)="dateChanged()">
+                    <ng-container *ngFor="let date of dates">
+                        <option [value]="date.id">{{date.day}}</option>
+                    </ng-container>
+                </select>
+
+                <label for="time">Select Showtime:</label>
+                <select id="time" [(ngModel)]="showtimeId">
+                    <ng-container *ngIf="!showtimes || showtimes.length === 0">
+                        <option value="0" selected></option>
+                        <option value="0">Please choose date first</option>
+                    </ng-container>
+                    <ng-container *ngFor="let showtime of showtimes">
+                        <option [value]="showtime.id">{{showtime.startTime +'~'+ showtime.endTime}}</option>
+                    </ng-container>
+                </select>
+                <input type="submit" value="Find Theater" (click)="findTicket()">
+
+
+                <div class="seat-container" *ngIf="tickets">
+                    <ng-container *ngFor="let ticket of tickets">
+                        <button class="seat" id="seat1" (click)="chooseTicket(ticket.id)"
+                            [ngClass]="{'red-button': ticket.active, 'yellow-button': ticket.id == ticketId}"
+                            [disabled]="ticket.active">{{ticket.seat}}</button>
+                    </ng-container>
+                </div>
+                <div class="seat-container" *ngIf="tickets">
+                    <div class="not-found" *ngIf="tickets.length === 0">Can't find any theater</div>
+                </div>
+                <br>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required [(ngModel)]="userEmail">
+                <input type="submit" value="Book Ticket" (click)="book()">
+                <div class="response"><sup> {{!bookingResponse.isModified ? bookingResponse.error.notFoundErrorMessage:
+                        'Booking ticket success'}}</sup></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

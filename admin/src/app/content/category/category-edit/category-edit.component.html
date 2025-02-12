@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Category Name: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary"*ngIf="category">
+                <input type="text" class="form-control" [(ngModel)]="category.name">
+                <div><sup>{{response.error.nameError}}</sup></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h6 class="mb-0">Type: </h6>
+            </div>
+            <div class="col-sm-9 text-secondary" *ngIf="category">
+                <select class="form-control w-25" aria-label="Default select example" [(ngModel)]="typeId">
+                    <ng-container *ngFor="let type of types">
+                        <option [value]="type.id">{{type.name}}</option>
+                    </ng-container>
+                </select>
+                <div><sup>{{response.error.typeError}}</sup></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9 text-secondary" *ngIf="!response.isModified">
+                <input type="button" class="btn btn-primary px-4" value="Save Changes" (click)="editCategory()">
+            </div>
+
+            <div class="col-sm-9 text-secondary" *ngIf="response.isModified">
+                <div><sup>Category edit successfully</sup></div>
+                <input type="button" class="btn btn-primary px-4" value="Turn Back" routerLink="/redirectCategory">
+            </div>
+        </div>
+    </div>
+</div>

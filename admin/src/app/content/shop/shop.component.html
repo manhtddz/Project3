@@ -1,0 +1,51 @@
+<div class="card shadow mb-0">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Shops</h6>
+    </div>
+    <!-- Card Body -->
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <button class="btn bg-primary text-white" routerLink="/shop/create">Create</button>
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Logo</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngFor="let shop of response;let i = index">
+                    <tr>
+                        <td>{{shop.id}}</td>
+                        <td>{{shop.name}}</td>
+                        <td class="image">
+                            <img [src]="shop.logo" alt="">
+                        </td>
+                        <td>{{shop.phone}}</td>
+                        <td>{{shop.email}}</td>
+                        <td>{{shop.active ? 'active':'disabled'}}</td>
+                        <td>
+                            <button class="btn btn-outline-info" routerLink="/shop/{{shop.id}}/details">Details</button>
+                            <button class="btn btn-outline-primary" routerLink="/shop/{{shop.id}}/edit">Edit</button>
+                            <button class="btn btn-outline-danger" routerLink="/shop/{{shop.id}}/delete">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="load-page" *ngIf="pageCount > 1">
+                <button class="custom-button" (click)="prev()" [disabled]="startIndex == 0"><</button>
+                <input type="text" [value]="startIndex + 1" disabled class="start-index">
+                <button class="custom-button" (click)="next()"
+                    [disabled]="startIndex*stepIndex + stepIndex >= length">></button>
+            </div>
+            <span class="total-pages">Total pages: {{pageCount}}</span>
+        </div>
+    </div>
+</div>
